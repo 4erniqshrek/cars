@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prolog коли с различни правила и GIF</title>
+  <title>Prolog Коли с GIF</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 700px;
+      font-family: 'Segoe UI', sans-serif;
+      max-width: 800px;
       margin: 30px auto;
-      background: #f9f9f9;
-      color: #333;
+      background: #f3faff;
+      color: #222;
       padding: 20px;
+      border-radius: 12px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      border-radius: 10px;
       text-align: center;
     }
+
     textarea {
       width: 90%;
-      max-width: 600px;
-      height: 120px;
+      height: 100px;
       font-family: monospace;
       font-size: 16px;
-      margin-top: 10px;
       border-radius: 6px;
       border: 2px solid #007acc;
       padding: 8px;
       resize: vertical;
     }
+
     button {
       margin-top: 15px;
       padding: 10px 25px;
@@ -39,134 +39,115 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #005f99;
     }
+
     #result {
       margin-top: 20px;
       font-size: 18px;
-      min-height: 30px;
       font-weight: bold;
-      color: #004a99;
     }
-    .animal-container {
+
+    .car-container {
       margin-top: 30px;
-      min-height: 160px;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      align-items: center;
-      background: #d0e8ff;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #a0c4ff;
+      gap: 20px;
     }
-    .animal-gif {
-      max-width: 180px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #005f99;
+
+    .car-gif {
+      max-width: 200px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #007acc;
     }
   </style>
 </head>
 <body>
-  <h1>Задание: Програма с Prolog за животни и GIF визуализация</h1>
 
-  car(Lada).
-  is_ancient(X) :-car(X)
-  car(Ferrari).
-  is_fast(Y) :-car(Y)
-  car(Audi).
-  is_cool(Z) :-car(Z)
-  
+  <h1>Prolog: Коли с GIF</h1>
 
-  
-    <strong>Как да добавите нови GIF изображения?</strong><br>
-    - Намерете подходящ анимиран GIF в интернет (например в <a href="https://giphy.com" target="_blank">Giphy</a> или друг сайт).<br>
-    - Копирайте директния линк към GIF файла.<br>
-    - Добавете нов запис в обекта <code>animalAnimations</code> с името на животното и HTML за картинката, например:<br>
-    <code>elephant: '&lt;img src="your_gif_link.gif" class="animal-gif" alt="Elephant" /&gt;'</code><br>
-    - Не забравяйте да добавите и животното в Prolog базата.<br>
-  </p>
+  <p>Примерни заявки: <code>is_fast(X).</code>, <code>is_old(X).</code>, <code>is_cool(X).</code></p>
 
-
-  <h1>Prolog животни с различни правила и GIF</h1>
-
-  <textarea id="prolog-input">
-% Примери на заявки:
-is_mammal(X).
-is_big(X).
-is_predator(X).
-  </textarea><br />
-  <button onclick="runProlog()">Изпълни</button>
+  <textarea id="prolog-input">% Примерна заявка:
+is_cool(X).</textarea><br>
+  <button onclick="runProlog()">Изпълни заявката</button>
 
   <div id="result"></div>
-  <div class="animal-container" id="animal-animation"></div>
+  <div class="car-container" id="car-animation"></div>
 
   <script src="https://unpkg.com/tau-prolog"></script>
   <script>
     const session = pl.create();
 
-    // Разширена база знания с животни и правила
     const knowledge = `
-      animal(lion).
-animal(elephant).
-animal(tiger).
+      % Коли
+      car(lada).
+      car(ferrari).
+      car(audi).
+      car(bmw).
+      car(volkswagen).
 
-% Козина (бозайници)
-mammal(lion).
+      % Характеристики
+      fast(ferrari).
+      cool(audi).
+      old(lada).
+      reliable(volkswagen).
+      sporty(bmw).
 
-
-% Големи животни
-big(elephant).
-
-% Хищници
-
-predator(tiger).
-
-% Правила
-is_mammal(X) :- mammal(X).
-is_big(X) :- big(X).
-is_predator(X) :- predator(X).
-
+      % Правила
+      is_fast(X) :- fast(X).
+      is_cool(X) :- cool(X).
+      is_old(X) :- old(X).
+      is_reliable(X) :- reliable(X).
+      is_sporty(X) :- sporty(X).
     `;
 
     session.consult(knowledge);
 
-    const animalAnimations = {
-      lada: '<https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHFrZnNsOXF1ajVvdGkyNXg4ZGVrc3Z3ZGI0eGlub2cxbzEyeng4cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UxYj8W8coKjcY/giphy.gif" alt="Лада анимация" />',
-      elephant: '<img src="https://media.giphy.com/media/2v170e71aanfi/giphy.gif" class="animal-gif" alt="Слон анимация" />',
-      tiger: '<img src="https://media.giphy.com/media/fANhQpcPGr2hO/giphy.gif" class="animal-gif" alt="Тигър анимация" />',
-      crocodile: '<img src="https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif" class="animal-gif" alt="Крокодил анимация" />',
-      kangaroo: '<img src="https://media.giphy.com/media/l0MYEw7nYdf6r62aI/giphy.gif" class="animal-gif" alt="Кенгуру анимация" />',
-      owl: '<img src="https://media.giphy.com/media/3ohs4B9Zz54HXGvoYs/giphy.gif" class="animal-gif" alt="Бухал анимация" />'
+    const carGIFs = {
+      lada: '<img src="https://media.giphy.com/media/UxYj8W8coKjcY/giphy.gif" class="car-gif" alt="Lada GIF" />',
+      ferrari: '<img src="https://media.giphy.com/media/nNxT5qXR02FOM/giphy.gif" class="car-gif" alt="Ferrari GIF" />',
+      audi: '<img src="https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif" class="car-gif" alt="Audi GIF" />',
+      bmw: '<img src="https://media.giphy.com/media/xT0GqeSlGSRQut4DHa/giphy.gif" class="car-gif" alt="BMW GIF" />',
+      volkswagen: '<img src="https://media.giphy.com/media/3orieYzPzK4DexFPJS/giphy.gif" class="car-gif" alt="Volkswagen GIF" />'
     };
 
     function runProlog() {
-      const input = document.getElementById("prolog-input").value;
+      const input = document.getElementById("prolog-input").value.trim();
       const resultDiv = document.getElementById("result");
-      const animDiv = document.getElementById("animal-animation");
+      const animDiv = document.getElementById("car-animation");
 
       resultDiv.innerHTML = "";
       animDiv.innerHTML = "";
 
-      session.query(input);
-      session.answers(answer => {
-        if(answer === false) {
-          resultDiv.innerHTML += `<p>Няма повече резултати.</p>`;
-          return;
-        }
-        const str = pl.format_answer(answer);
-        if (str === "false.") {
-          resultDiv.innerHTML = "<p>Няма резултати за тази заявка.</p>";
-          return;
-        }
-        resultDiv.innerHTML += `<p>${str}</p>`;
+      if (!input.endsWith(".")) {
+        resultDiv.innerHTML = "❗ Моля, завърши заявката с точка.";
+        return;
+      }
 
-        const match = str.match(/X = (\w+)/);
+      session.query(input);
+      let found = false;
+
+      session.answers(answer => {
+        if (answer === false && !found) {
+          resultDiv.innerHTML = "❌ Няма съвпадения.";
+          return;
+        }
+
+        found = true;
+        const formatted = pl.format_answer(answer);
+        resultDiv.innerHTML += `<p>${formatted}</p>`;
+
+        const match = formatted.match(/X = (\w+)/);
         if (match) {
-          const animal = match[1];
-          if (animalAnimations[animal]) {
-            animDiv.innerHTML = animalAnimations[animal];
+          const car = match[1].toLowerCase();
+          if (carGIFs[car]) {
+            animDiv.innerHTML += carGIFs[car];
           } else {
-            animDiv.innerHTML = "<p>Няма GIF за това животно.</p>";
+            animDiv.innerHTML += `<p>🚘 Няма GIF за кола: ${car}</p>`;
           }
         }
       });
